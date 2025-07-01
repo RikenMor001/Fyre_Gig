@@ -23,13 +23,13 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
         setRefreshPage(false);
     }
 
-    const totalBalance = () => {
-        
-    }
+    // const totalBalance = () => {
 
-    const formatCurrency = () => {
+    // }
 
-    }
+    // const formatCurrency = () => {
+
+    // }
 
     console.log({
         user,
@@ -67,7 +67,7 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
                                 Total Balance
                             </p>
                             <p className="flex items-center">
-                                {formatCurrency(totalBalance())}
+                                {/* {formatCurrency(totalBalance())} */}
                             </p>
                         </div>
                     </div>
