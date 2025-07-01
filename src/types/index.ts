@@ -14,7 +14,7 @@ export interface User{
     id: string;
     name: string;
     email: string;
-    phone: number;
+    phone: string;
     avatar?: string;
     memberSince: string;
 }
@@ -22,7 +22,7 @@ export interface User{
 export interface Transactions{
     id: string;
     amount: number;
-    date: string;
+    date: string | any;
     description: string;
     status: "completed" | "cancelled" | "pending";
     accountId: string;
