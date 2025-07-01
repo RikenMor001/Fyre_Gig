@@ -1,7 +1,5 @@
 import type { Account, QuickAction, Transactions, User } from "../types";
 
-const date = new Date();
-
 export const mockUser: User = {
     id: '1',
     name: 'Harvey Specter',
@@ -45,10 +43,11 @@ export const mockAccounts: Account[] = [
   }
 ];
 
+
 export const mockTransactions: Transactions[] = [
-    {
+  {
     id: '1',
-    date: date,
+    date: '2024-01-15T10:30:00Z',
     description: 'Grocery Store Purchase',
     amount: -89.47,
     type: 'debit',
@@ -58,7 +57,7 @@ export const mockTransactions: Transactions[] = [
   },
   {
     id: '2',
-    date: date,
+    date: '2024-01-14T15:45:00Z',
     description: 'Salary Deposit',
     amount: 3250.00,
     type: 'credit',
@@ -68,7 +67,7 @@ export const mockTransactions: Transactions[] = [
   },
   {
     id: '3',
-    date: date,
+    date: '2024-01-14T09:20:00Z',
     description: 'Electric Bill Payment',
     amount: -156.78,
     type: 'debit',
@@ -78,7 +77,7 @@ export const mockTransactions: Transactions[] = [
   },
   {
     id: '4',
-    date: date,
+    date: '2024-01-13T14:15:00Z',
     description: 'Coffee Shop',
     amount: -12.50,
     type: 'debit',
@@ -88,7 +87,7 @@ export const mockTransactions: Transactions[] = [
   },
   {
     id: '5',
-    date: date,
+    date: '2024-01-13T11:30:00Z',
     description: 'ATM Withdrawal',
     amount: -200.00,
     type: 'debit',
@@ -98,7 +97,7 @@ export const mockTransactions: Transactions[] = [
   },
   {
     id: '6',
-    date: date,
+    date: '2024-01-12T16:45:00Z',
     description: 'Online Transfer',
     amount: -500.00,
     type: 'debit',
@@ -108,7 +107,7 @@ export const mockTransactions: Transactions[] = [
   },
   {
     id: '7',
-    date: date,
+    date: '2024-01-12T08:20:00Z',
     description: 'Investment Dividend',
     amount: 125.75,
     type: 'credit',
@@ -118,7 +117,7 @@ export const mockTransactions: Transactions[] = [
   },
   {
     id: '8',
-    date: date,
+    date: '2024-01-11T13:10:00Z',
     description: 'Gas Station',
     amount: -65.30,
     type: 'debit',
@@ -126,7 +125,7 @@ export const mockTransactions: Transactions[] = [
     accountId: '3',
     status: 'completed'
   }
-]
+];
 
 export const mockQuickActions: QuickAction[] = [
   {
