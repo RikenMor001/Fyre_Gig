@@ -2,6 +2,7 @@ import type React from "react";
 import type { Account, QuickAction, Transactions, User } from "../types"
 import { useState } from "react";
 import { Bell, Menu, RefreshCcw, X } from "lucide-react";
+import { Card } from "./Cards";
 
 interface DashboardPorps {
     user: User,
@@ -14,11 +15,6 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
     
     console.log({user, account, transaction, quickActions})
 
-    const testing = () => {
-        setLastUpdated(lastUpdated);
-    }
-
-    testing();
     const [iseSideBarOpen, setIsSideBarOpen] = useState<boolean>(false);
     const [lastUpdated, setLastUpdated] = useState(new Date());
     const [refreshPage, setRefreshPage] = useState<boolean>(false);
@@ -94,6 +90,19 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
                 </div>
             </div>
         </header>
+        
+        {/*SIDEBAR MOBILE*/}
+
+
+        {/* MAIN CONTENT*/}
+        <div className="max-w-7xl mx-auto py-8 px-4">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <div className="lg:col-span-3 space-y-8">
+                    <h2 className="text-xl font-semibold tracking-wide">Your Accounts</h2>
+                    <Card/>   
+                </div>
+            </div>
+        </div>
     </div>
 }
 
