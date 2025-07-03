@@ -12,6 +12,13 @@ interface DashboardPorps {
 
 const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickActions}) => {
     
+    console.log({user, account, transaction, quickActions})
+
+    const testing = () => {
+        setLastUpdated(lastUpdated);
+    }
+
+    testing();
     const [iseSideBarOpen, setIsSideBarOpen] = useState<boolean>(false);
     const [lastUpdated, setLastUpdated] = useState(new Date());
     const [refreshPage, setRefreshPage] = useState<boolean>(false);
@@ -84,9 +91,7 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
                             </button>
                         </div>
                     </div>
-
                 </div>
-                
             </div>
         </header>
     </div>
