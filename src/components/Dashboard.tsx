@@ -1,7 +1,7 @@
 import type React from "react";
 import type { Account, QuickAction, Transactions, User } from "../types"
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Bell, Menu, RefreshCcw, X } from "lucide-react";
 
 interface DashboardPorps {
     user: User,
@@ -23,26 +23,26 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
         setRefreshPage(false);
     }
 
-    // const totalBalance = () => {
+    const totalBalance = () => {
+        return account.reduce((total, account) => {
+            if (account.type === "credit"){
+                return total;
+            } else return total + account.balance;
+        }, 0)
+    }
 
-    // }
+    const formatCurrency = (amount: number) => {
+        return new Intl.NumberFormat('en-US', {
+            style: "currency",
+            currency: "USD"
+        }).format(amount);
+    }
 
-    // const formatCurrency = () => {
-
-    // }
-
-    console.log({
-        user,
-        account,
-        transaction,
-        quickActions
-    })
-    
     return <div className="bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50 min-h-screen">
         {/* Navbar */}
-        <header className="bg-white border-b border-gray-100 sticky top-0 z-40 backdrop-blur-lg shadow-md">
-            <div className="max-w-7xl mx-auto ">
-                <div className="h-16 flex justify-between items-center">
+        <header className="bg-white border-b border-gray-100 sticky top-0 z-40 backdrop-blur-lg shadow-sm">
+            <div className="max-w-6xl mx-auto ">
+                <div className="h-15 flex justify-between items-center">
 
                     <div className="space-x-4 flex items-center">
                         <button
@@ -52,7 +52,7 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
                         {iseSideBarOpen ? <X className="h-6 w-6"/>: <Menu className="h-6 w-6"/>}
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold tracking-wide">
+                            <h1 className="text-xl font-bold tracking-wide">
                                 Banking Dashboard
                             </h1>
                             <p className="text-gray-950 font-light tracking-wide">
@@ -61,14 +61,24 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
                         </div>
                     </div>
 
-                    <div className="flex items-center">
+                    <div className="flex items-center space-x-1">
                         <div className="text-right">
-                            <p className="text-sm text-slate-700 tracking-wide flex items-center">
+                            <p className="text-sm text-slate-800 tracking-wide flex items-center">
                                 Total Balance
                             </p>
-                            <p className="flex items-center">
-                                {/* {formatCurrency(totalBalance())} */}
+                            <p className="flex items-center font-semibold text-xl">
+                                {formatCurrency(totalBalance())}
                             </p>
+                        </div>
+                        <div >
+                            <button className="hover:cursor-pointer hover:bg-gray-100 p-2" onClick={handleRefresh}>
+                                <RefreshCcw className="h-5 w-5 text-gray-400 "/>
+                            </button>
+                        </div>
+                        <div>
+                            <button className="hover:cursor-pointer hover:bg-gray-100 p-2">
+                                <Bell className="h-5 w-5 text-gray-400"/>
+                            </button>
                         </div>
                     </div>
 
