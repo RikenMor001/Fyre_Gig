@@ -41,7 +41,7 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
     return <div className="bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50 min-h-screen">
         {/* Navbar */}
         <header className="bg-white border-b border-gray-100 sticky top-0 z-40 backdrop-blur-lg shadow-sm">
-            <div className="max-w-6xl mx-auto ">
+            <div className="max-w-7xl mx-auto ">
                 <div className="h-15 flex justify-between items-center">
 
                     <div className="space-x-4 flex items-center">
@@ -52,7 +52,7 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
                         {iseSideBarOpen ? <X className="h-6 w-6"/>: <Menu className="h-6 w-6"/>}
                         </button>
                         <div>
-                            <h1 className="text-xl font-bold tracking-wide">
+                            <h1 className="text-2xl font-bold tracking-wide">
                                 Banking Dashboard
                             </h1>
                             <p className="text-gray-950 font-light tracking-wide">
@@ -71,8 +71,11 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
                             </p>
                         </div>
                         <div >
-                            <button className="hover:cursor-pointer hover:bg-gray-100 p-2" onClick={handleRefresh}>
-                                <RefreshCcw className="h-5 w-5 text-gray-400 "/>
+                            <button 
+                            className="hover:cursor-pointer hover:bg-gray-100 p-2" 
+                            onClick={handleRefresh}
+                            disabled={refreshPage}>
+                                <RefreshCcw className={`h-5 w-5 text-gray-400 ${refreshPage ? "animate-spin" : ""}`}/>
                             </button>
                         </div>
                         <div>
