@@ -2,7 +2,7 @@ import type React from "react";
 import type { Account, QuickAction, Transactions, User } from "../types"
 import { useState } from "react";
 import { Bell, Menu, RefreshCcw, X } from "lucide-react";
-import { Card } from "./Cards";
+import Card from "./Cards";
 
 interface DashboardPorps {
     user: User,
@@ -96,7 +96,22 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
 
         {/* MAIN CONTENT*/}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            Your Accounts
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <div className="lg:col-span-3 space-y-8">
+                    <h2 className="text-2xl font-bold tracking-wide mb-6">
+                        Your Accounts
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        {account.map((accounts) => (
+                            <Card
+                            key={accounts.id}
+                            accounts={accounts}
+                            onClick={() => console.log('Account clicked:', accounts.id)}
+                  />
+                        ))}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 }
