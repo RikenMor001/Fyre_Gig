@@ -13,8 +13,6 @@ const TransactionLists: React.FC<TransactionListProps> = ({transaction, title = 
     const [searchTransaction, setSearchTransaction] = useState('');
     const [searchFilter, setSearchFilter] = useState<"all" | "credit" | "debit">("all");
 
-    console.log({transaction, title})
-
     const getStatusIcon = (status: Transactions['status']) => {
     switch (status) {
       case 'completed':
@@ -28,6 +26,12 @@ const TransactionLists: React.FC<TransactionListProps> = ({transaction, title = 
     }
   }
   
+  const filteredTransaction = transaction.filter(transaction => {
+    const matchesSearch = transaction.description.toLowerCase().includes(searchFilter.toLocaleLowerCase()) || transaction.category.toLowerCase().includes(searchTransaction.toLowerCase());
+    const matchesFilter = searchFilter === "all" || transaction.type === searchFilter;
+    return matchesSearch && matchesFilter;
+  }).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
   const formatAmount = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -71,6 +75,10 @@ const TransactionLists: React.FC<TransactionListProps> = ({transaction, title = 
             <option value="debit">Expenses</option>
           </select>
         </div>
+      </div>
+
+      <div className="space-y-3">        
+        {filteredTransaction.length === 0}
       </div>
     </div>
 }
