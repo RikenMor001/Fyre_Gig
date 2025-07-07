@@ -3,6 +3,7 @@ import type { Account, QuickAction, Transactions, User } from "../types"
 import { useState } from "react";
 import { Bell, Menu, RefreshCcw, X } from "lucide-react";
 import Card from "./Cards";
+import TransactionLists from "./TransactionList";
 
 interface DashboardPorps {
     user: User,
@@ -41,11 +42,11 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
         }).format(amount);
     }
 
-    return <div className="bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50 min-h-screen">
+    return <div className="min-h-screen bg-blue-50">
         {/* Navbar */}
         <header className="bg-white border-b border-gray-100 sticky top-0 z-40 backdrop-blur-lg shadow-sm">
-            <div className="max-w-7xl mx-auto ">
-                <div className="h-15 flex justify-between items-center">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex items-center justify-between h-16">
 
                     <div className="space-x-4 flex items-center">
                         <button
@@ -96,7 +97,7 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
 
         {/* MAIN CONTENT*/}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-4">
                 <div className="lg:col-span-3 space-y-8">
                     <h2 className="text-2xl font-bold tracking-wide mb-6">
                         Your Accounts
@@ -105,13 +106,16 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
                         {account.map((accounts) => (
                             <Card
                             key={accounts.id}
-                            accounts={accounts}
+                            account={accounts}
                             onClick={() => console.log('Account clicked:', accounts.id)}
                   />
                         ))}
                     </div>
                 </div>
             </div>
+
+            {/* TRANSACTION LIST */}
+            <TransactionLists transaction={transaction}/>
         </div>
     </div>
 }
