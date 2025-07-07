@@ -56,11 +56,20 @@ const TransactionLists: React.FC<TransactionListProps> = ({transaction, title = 
             <input
             type="text"
             placeholder="Search Transactions"
-            className=""
+            className="pl-10 pr-4 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 foucs:border-transparent"
             value={searchTransaction}
             onChange={(e) => setSearchTransaction(e.target.value)}
             />
           </div>
+          <select 
+          className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          value={searchFilter}
+          onChange={(e) => setSearchFilter(e.target.value as "all" | "credit" | "debit")}
+          >
+            <option value="all">All Types</option>
+            <option value="credit">Income</option>
+            <option value="debit">Expenses</option>
+          </select>
         </div>
       </div>
     </div>
