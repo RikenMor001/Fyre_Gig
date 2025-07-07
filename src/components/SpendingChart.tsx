@@ -10,9 +10,7 @@ const SpendingChart: React.FC<SpendingChartProps> = ({ transaction }) => {
   const calculateCategorySpending = () => {
     const categoryTotals: { [key: string]: number } = {};
     
-    transaction
-      .filter(t => t.type === 'debit' && t.status === 'completed')
-      .forEach(transaction => {
+    transaction.filter(t => t.type === 'debit' && t.status === 'completed').forEach(transaction => {
         const category = transaction.category;
         categoryTotals[category] = (categoryTotals[category] || 0) + Math.abs(transaction.amount);
       });
