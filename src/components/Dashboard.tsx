@@ -5,6 +5,7 @@ import SpendingChart from './SpendingChart';
 import { Bell, Menu, X, RefreshCw } from 'lucide-react';
 import type { Account, QuickAction, Transactions, User } from '../types';
 import AccountCard from './Cards';
+import QuickActionButtons from './QuickActions';
 
 interface DashboardProps {
   user: User;
@@ -13,10 +14,14 @@ interface DashboardProps {
   quickActions: QuickAction[];
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ user, accounts, transaction}) => {
+const Dashboard: React.FC<DashboardProps> = ({ user, accounts, transaction, quickActions}) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+    const handleQuickActions = (actions: QuickAction) => {
+        console.log("Quick actions function called" + actions.action)
+    }
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -132,6 +137,22 @@ const Dashboard: React.FC<DashboardProps> = ({ user, accounts, transaction}) => 
                 user={user}
                 onSettingsClick={() => console.log('Settings clicked')}
               />
+            </div>
+            
+            {/* Desktop Quick Actions */}
+            <div className='hidden lg:block'>
+                <QuickActionButtons
+                actions = {quickActions}
+                onActionClick = {handleQuickActions}
+                />
+            </div>
+
+            {/* Mobile Quick Actions */}
+            <div className='lg:hidden'>
+                <QuickActionButtons
+                actions={quickActions}
+                onActionClick={handleQuickActions}
+                />
             </div>
           </div>
         </div>
