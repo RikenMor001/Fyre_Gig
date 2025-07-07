@@ -2,7 +2,7 @@
 import type React from "react";
 import type { Transactions } from "../types";
 import { useState } from "react";
-import { CheckCircle, Clock, XCircle } from "lucide-react";
+import { CheckCircle, Clock, Search, XCircle } from "lucide-react";
 
 interface TransactionListProps {
     transaction: Transactions[];
@@ -35,7 +35,7 @@ const TransactionLists: React.FC<TransactionListProps> = ({transaction, title = 
     }).format(Math.abs(amount));
   }
 
-  const formatDate = (dateString: string) => {
+  const formateDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       month: "short",
@@ -45,8 +45,17 @@ const TransactionLists: React.FC<TransactionListProps> = ({transaction, title = 
     })
   }
 
-    return <div>
-      hello there from the transactionsList
+    return <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-2xl font-semibold tracking-tight">
+          {title}
+        </h2>
+        <div className="flex items-center space-x-2">
+          <div className="relative"> 
+            <Search className="h-4 w-4"/>
+          </div>
+        </div>
+      </div>
     </div>
 }
 
