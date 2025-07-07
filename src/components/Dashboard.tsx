@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Bell, Menu, RefreshCcw, X } from "lucide-react";
 import Card from "./Cards";
 import TransactionLists from "./TransactionList";
+import SpendingChart from "./SpendingChart";
 
 interface DashboardPorps {
     user: User,
@@ -114,6 +115,11 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
 
             {/* TRANSACTION LIST */}
             <TransactionLists transaction={transaction}/>
+
+            {/* SPENDING */}
+            <div className="mt-4">
+                <SpendingChart transaction={transaction}/>            
+            </div>
         </div>
     </div>
 }
