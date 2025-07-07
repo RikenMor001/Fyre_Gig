@@ -5,6 +5,7 @@ import { Bell, Menu, RefreshCcw, X } from "lucide-react";
 import Card from "./Cards";
 import TransactionLists from "./TransactionList";
 import SpendingChart from "./SpendingChart";
+import UserProfile from "./UserProfile";
 
 interface DashboardPorps {
     user: User,
@@ -120,6 +121,9 @@ const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickA
             <div className="mt-4">
                 <SpendingChart transaction={transaction}/>            
             </div>
+
+            {/* PROFILE */}
+            <UserProfile user={user}/>
         </div>
     </div>
 }
