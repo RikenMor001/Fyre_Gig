@@ -39,7 +39,7 @@ const TransactionLists: React.FC<TransactionListProps> = ({transaction, title = 
     }).format(Math.abs(amount));
   }
 
-  const formateDate = (dateString: string) => {
+  const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       month: "short",
@@ -77,42 +77,66 @@ const TransactionLists: React.FC<TransactionListProps> = ({transaction, title = 
         </div>
       </div>
 
-      <div className="space-y-3">        
+      <div className="space-y-3">
         {filteredTransaction.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
-            <Filter className="h-8 w-8 mx-auto mb-2 opacity-50"/>   
-            <p>
-              No transactions found matching your criteria.
-            </p>
+            <Filter className="w-8 h-8 mx-auto mb-2 opacity-50" />
+            <p>No transactions found matching your criteria.</p>
           </div>
         ) : (
-          filteredTransaction.map((transaction) =>(
+          filteredTransaction.map((transaction) => (
             <div
-            key={transaction.id}
-            className="flex- items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition-colors duration-150"
+              key={transaction.id}
+              className="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition-colors duration-150"
             >
               <div className="flex items-center space-x-4">
                 <div className={`p-2 rounded-full ${
-                  transaction.type === "credit" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"
+                  transaction.type === 'credit' 
+                    ? 'bg-green-100 text-green-600' 
+                    : 'bg-red-100 text-red-600'
                 }`}>
-                  {transaction.type === "credit" ? (
-                    <ArrowDownRight className="h-4 w-4"/>
+                  {transaction.type === 'credit' ? (
+                    <ArrowDownRight className="w-4 h-4" />
                   ) : (
-                    <ArrowUpRight className="h-4 w-4"/>
+                    <ArrowUpRight className="w-4 h-4" />
                   )}
                 </div>
                 <div>
-                  <div className="flex items-center">
-                    <p className="font-medium text-gray-500">
-                      {transaction.description}
+                  <div className="flex items-center space-x-2">
+                    <p className="font-medium text-gray-900">{transaction.description}
+                    </p>
+                    {getStatusIcon(transaction.status)}
+                  </div>
+                  <div className="flex items-center space-x-2 mt-1">
+                    <p className="text-sm text-gray-500">{transaction.category}</p>
+                    <span className="text-gray-300">•</span>
+                    <p className="text-sm text-gray-500">{formatDate(transaction.date)}
                     </p>
                   </div>
                 </div>
+              </div>
+              <div className="text-right">
+                <p className={`font-semibold ${
+                  transaction.type === 'credit' 
+                    ? 'text-green-600' 
+                    : 'text-red-600'
+                }`}>
+                  {transaction.type === 'credit' ? '+' : '-'}{formatAmount(transaction.amount)}
+                </p>
+                <p className="text-xs text-gray-400 capitalize">{transaction.status}</p>
               </div>
             </div>
           ))
         )}
       </div>
+
+      {filteredTransaction.length > 0 && (
+        <div className="mt-6 text-center">
+          <div className="text-blue-500 hover:text-blue-700 font-medium text-sm transition-colors duration-150">
+            View All Transactions
+          </div>
+        </div>
+      )}
     </div>
 }
 
