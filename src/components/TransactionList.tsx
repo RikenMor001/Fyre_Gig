@@ -46,13 +46,20 @@ const TransactionLists: React.FC<TransactionListProps> = ({transaction, title = 
   }
 
     return <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-semibold tracking-tight">
           {title}
         </h2>
         <div className="flex items-center space-x-2">
           <div className="relative"> 
-            <Search className="h-4 w-4"/>
+            <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"/>
+            <input
+            type="text"
+            placeholder="Search Transactions"
+            className=""
+            value={searchTransaction}
+            onChange={(e) => setSearchTransaction(e.target.value)}
+            />
           </div>
         </div>
       </div>
