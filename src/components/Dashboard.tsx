@@ -13,7 +13,7 @@ interface DashboardPorps {
 }
 
 const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickActions}) => {
-    
+
     const [iseSideBarOpen, setIsSideBarOpen] = useState<boolean>(false);
     const [lastUpdated, setLastUpdated] = useState(new Date());
     const [refreshPage, setRefreshPage] = useState<boolean>(false);
