@@ -2,7 +2,7 @@
 import type React from "react";
 import type { Transactions } from "../types";
 import { useState } from "react";
-import { CheckCircle, Clock, Search, XCircle } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, CheckCircle, Clock, Filter, Search, XCircle } from "lucide-react";
 
 interface TransactionListProps {
     transaction: Transactions[];
@@ -78,7 +78,40 @@ const TransactionLists: React.FC<TransactionListProps> = ({transaction, title = 
       </div>
 
       <div className="space-y-3">        
-        {filteredTransaction.length === 0}
+        {filteredTransaction.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">
+            <Filter className="h-8 w-8 mx-auto mb-2 opacity-50"/>   
+            <p>
+              No transactions found matching your criteria.
+            </p>
+          </div>
+        ) : (
+          filteredTransaction.map((transaction) =>(
+            <div
+            key={transaction.id}
+            className="flex- items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition-colors duration-150"
+            >
+              <div className="flex items-center space-x-4">
+                <div className={`p-2 rounded-full ${
+                  transaction.type === "credit" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"
+                }`}>
+                  {transaction.type === "credit" ? (
+                    <ArrowDownRight className="h-4 w-4"/>
+                  ) : (
+                    <ArrowUpRight className="h-4 w-4"/>
+                  )}
+                </div>
+                <div>
+                  <div className="flex items-center">
+                    <p className="font-medium text-gray-500">
+                      {transaction.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
 }
