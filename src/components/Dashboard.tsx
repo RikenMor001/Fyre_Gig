@@ -1,131 +1,154 @@
-import type React from "react";
-import type { Account, QuickAction, Transactions, User } from "../types"
-import { useState } from "react";
-import { Bell, Menu, RefreshCcw, X } from "lucide-react";
-import Card from "./Cards";
-import TransactionLists from "./TransactionList";
-import SpendingChart from "./SpendingChart";
-import UserProfile from "./UserProfile";
+import React, { useState } from 'react';
+import TransactionList from './TransactionList';
+import UserProfile from './UserProfile';
+import SpendingChart from './SpendingChart';
+import { Bell, Menu, X, RefreshCw } from 'lucide-react';
+import type { Account, QuickAction, Transactions, User } from '../types';
+import AccountCard from './Cards';
 
-interface DashboardPorps {
-    user: User,
-    account: Account[],
-    transaction: Transactions[],
-    quickActions: QuickAction[]
+interface DashboardProps {
+  user: User;
+  accounts: Account[];
+  transaction: Transactions[];
+  quickActions: QuickAction[];
 }
 
-const Dashboard: React.FC<DashboardPorps> = ({user, account, transaction, quickActions}) => {
+const Dashboard: React.FC<DashboardProps> = ({ user, accounts, transaction}) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState(new Date());
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-    const [iseSideBarOpen, setIsSideBarOpen] = useState<boolean>(false);
-    const [lastUpdated, setLastUpdated] = useState(new Date());
-    const [refreshPage, setRefreshPage] = useState<boolean>(false);
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setLastUpdated(new Date());
+    setIsRefreshing(false);
+  };
 
-    const handleRefresh = async () => {
-        setRefreshPage(true);
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        setLastUpdated(new Date());
-        setRefreshPage(false);
-    }
+  const getTotalBalance = () => {
+    return accounts.reduce((total, account) => {
+      if (account.type === 'credit') {
+        return total; 
+      }
+      return total + account.balance;
+    }, 0);
+  };
 
-    const totalBalance = () => {
-        return account.reduce((total, account) => {
-            if (account.type === "credit"){
-                return total;
-            } else return total + account.balance;
-        }, 0)
-    }
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(amount);
+  };
 
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('en-US', {
-            style: "currency",
-            currency: "USD"
-        }).format(amount);
-    }
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50">
 
-    return <div className="min-h-screen bg-blue-50">
-        {/* Navbar */}
-        <header className="bg-white border-b border-gray-100 sticky top-0 z-40 backdrop-blur-lg shadow-sm">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-
-                    <div className="space-x-4 flex items-center">
-                        <button
-                        onClick={() => setIsSideBarOpen(!iseSideBarOpen)}
-                        className="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
-                        >
-                        {iseSideBarOpen ? <X className="h-6 w-6"/>: <Menu className="h-6 w-6"/>}
-                        </button>
-                        <div>
-                            <h1 className="text-2xl font-bold tracking-wide">
-                                Banking Dashboard
-                            </h1>
-                            <p className="text-gray-950 font-light tracking-wide">
-                                Welcome Back, {user.name.split('')[0]}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center space-x-1">
-                        <div className="text-right">
-                            <p className="text-sm text-slate-800 tracking-wide flex items-center">
-                                Total Balance
-                            </p>
-                            <p className="flex items-center font-semibold text-xl">
-                                {formatCurrency(totalBalance())}
-                            </p>
-                        </div>
-                        <div >
-                            <button 
-                            className="hover:cursor-pointer hover:bg-gray-100 p-2" 
-                            onClick={handleRefresh}
-                            disabled={refreshPage}>
-                                <RefreshCcw className={`h-5 w-5 text-gray-400 ${refreshPage ? "animate-spin" : ""}`}/>
-                            </button>
-                        </div>
-                        <div>
-                            <button className="hover:cursor-pointer hover:bg-gray-100 p-2">
-                                <Bell className="h-5 w-5 text-gray-400"/>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+      {/* Header */}
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                className="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+              >
+                {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Banking Dashboard</h1>
+                <p className="text-sm text-gray-500">Welcome back, {user.name.split(' ')[0]}</p>
+              </div>
             </div>
-        </header>
-        
-        {/*SIDEBAR MOBILE*/}
-
-
-        {/* MAIN CONTENT*/}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-4">
-                <div className="lg:col-span-3 space-y-8">
-                    <h2 className="text-2xl font-bold tracking-wide mb-6">
-                        Your Accounts
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        {account.map((accounts) => (
-                            <Card
-                            key={accounts.id}
-                            account={accounts}
-                            onClick={() => console.log('Account clicked:', accounts.id)}
-                  />
-                        ))}
-                    </div>
-                </div>
+            
+            <div className="flex items-center space-x-4">
+              <div className="text-right">
+                <p className="text-sm text-gray-500">Total Balance</p>
+                <p className="text-xl font-bold text-gray-900">{formatCurrency(getTotalBalance())}</p>
+              </div>
+              <button
+                onClick={handleRefresh}
+                disabled={isRefreshing}
+                className="p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-md transition-colors duration-150 disabled:opacity-50"
+              >
+                <RefreshCw className={`w-5 h-5 ${isRefreshing ? 'animate-spin' : ''}`} />
+              </button>
+              <button className="relative p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-md">
+                <Bell className="w-5 h-5" />
+                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+              </button>
             </div>
-
-            {/* TRANSACTION LIST */}
-            <TransactionLists transaction={transaction}/>
-
-            {/* SPENDING */}
-            <div className="mt-4">
-                <SpendingChart transaction={transaction}/>            
-            </div>
-
-            {/* PROFILE */}
-            <UserProfile user={user}/>
+          </div>
         </div>
+      </header>
+
+      {/* Sidebar for mobile */}
+      {isSidebarOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div className="fixed inset-0 bg-black bg-opacity-50" onClick={() => setIsSidebarOpen(false)} />
+          <div className="fixed left-0 top-0 bottom-0 w-80 bg-white p-6 overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-semibold">Menu</h2>
+              <button onClick={() => setIsSidebarOpen(false)}>
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <UserProfile user={user} />
+          </div>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/*Left Column - Accounts and Transaction*/}
+          <div className="lg:col-span-3 space-y-8">
+            {/* Account Cards */}
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900 mb-6">Your Accounts</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {accounts.map((account) => (
+                  <AccountCard
+                    key={account.id}
+                    account={account}
+                    onClick={() => console.log('Account clicked:', account.id)}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Transaction */}
+            <TransactionList transaction={transaction} />
+
+            {/* Spending Chart */}
+            <SpendingChart transaction={transaction} />
+          </div>
+
+          {/* Right Column - Profile and Quick Actions */}
+          <div className="space-y-8">
+            <div className="hidden lg:block">
+              <UserProfile
+                user={user}
+                onSettingsClick={() => console.log('Settings clicked')}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <footer className="mt-12 pt-8 border-t border-gray-200">
+          <div className="flex items-center justify-between text-sm text-gray-800 font-medium">
+            <p>Last updated: {lastUpdated.toLocaleTimeString()}</p>
+            <div className="flex items-center space-x-4">
+              <span>Secured by 256-bit SSL encryption</span>
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            </div>
+          </div>
+        </footer>
+      </main>
     </div>
-}
+  );
+};
 
 export default Dashboard;
