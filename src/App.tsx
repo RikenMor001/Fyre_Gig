@@ -5,7 +5,7 @@ function App(){
   return(
     <Dashboard
     user = {mockUser}
-    account = {mockAccounts}
+    accounts = {mockAccounts}
     transaction = {mockTransactions}
     quickActions = {mockQuickActions}
     />
