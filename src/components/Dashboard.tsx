@@ -1,27 +1,23 @@
 import React, { useState } from 'react';
 import TransactionList from './TransactionList';
+import QuickActions from './QuickActions';
 import UserProfile from './UserProfile';
 import SpendingChart from './SpendingChart';
 import { Bell, Menu, X, RefreshCw } from 'lucide-react';
 import type { Account, QuickAction, Transactions, User } from '../types';
 import AccountCard from './Cards';
-import QuickActionButtons from './QuickActions';
 
 interface DashboardProps {
   user: User;
   accounts: Account[];
-  transaction: Transactions[];
+  transactions: Transactions[];
   quickActions: QuickAction[];
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ user, accounts, transaction, quickActions}) => {
+const Dashboard: React.FC<DashboardProps> = ({ user, accounts, transactions, quickActions }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [isRefreshing, setIsRefreshing] = useState(false);
-
-    const handleQuickActions = (actions: QuickAction) => {
-        console.log("Quick actions function called" + actions.action)
-    }
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -30,10 +26,15 @@ const Dashboard: React.FC<DashboardProps> = ({ user, accounts, transaction, quic
     setIsRefreshing(false);
   };
 
+  const handleQuickAction = (action: QuickAction) => {
+    console.log('Quick action clicked:', action.action);
+    // Handle quick action logic here
+  };
+
   const getTotalBalance = () => {
     return accounts.reduce((total, account) => {
       if (account.type === 'credit') {
-        return total; 
+        return total; // Don't include credit card debt in total balance
       }
       return total + account.balance;
     }, 0);
@@ -48,7 +49,6 @@ const Dashboard: React.FC<DashboardProps> = ({ user, accounts, transaction, quic
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50">
-
       {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -100,6 +100,9 @@ const Dashboard: React.FC<DashboardProps> = ({ user, accounts, transaction, quic
               </button>
             </div>
             <UserProfile user={user} />
+            <div className="mt-6">
+              <QuickActions actions={quickActions} onActionClick={handleQuickAction} />
+            </div>
           </div>
         </div>
       )}
@@ -107,7 +110,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, accounts, transaction, quic
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/*Left Column - Accounts and Transaction*/}
+          {/*Left Column - Accounts and Transactions*/}
           <div className="lg:col-span-3 space-y-8">
             {/* Account Cards */}
             <div>
@@ -123,11 +126,11 @@ const Dashboard: React.FC<DashboardProps> = ({ user, accounts, transaction, quic
               </div>
             </div>
 
-            {/* Transaction */}
-            <TransactionList transaction={transaction} />
+            {/* Transactions */}
+            <TransactionList transaction={transactions} />
 
             {/* Spending Chart */}
-            <SpendingChart transaction={transaction} />
+            <SpendingChart transaction={transactions} />
           </div>
 
           {/* Right Column - Profile and Quick Actions */}
@@ -139,27 +142,26 @@ const Dashboard: React.FC<DashboardProps> = ({ user, accounts, transaction, quic
               />
             </div>
             
-            {/* Desktop Quick Actions */}
-            <div className='hidden lg:block'>
-                <QuickActionButtons
-                actions = {quickActions}
-                onActionClick = {handleQuickActions}
-                />
+            <div className="hidden lg:block">
+              <QuickActions
+                actions={quickActions}
+                onActionClick={handleQuickAction}
+              />
             </div>
 
             {/* Mobile Quick Actions */}
-            <div className='lg:hidden'>
-                <QuickActionButtons
+            <div className="lg:hidden">
+              <QuickActions
                 actions={quickActions}
-                onActionClick={handleQuickActions}
-                />
+                onActionClick={handleQuickAction}
+              />
             </div>
           </div>
         </div>
 
         {/* Footer */}
         <footer className="mt-12 pt-8 border-t border-gray-200">
-          <div className="flex items-center justify-between text-sm text-gray-800 font-medium">
+          <div className="flex items-center justify-between text-sm text-gray-500">
             <p>Last updated: {lastUpdated.toLocaleTimeString()}</p>
             <div className="flex items-center space-x-4">
               <span>Secured by 256-bit SSL encryption</span>
