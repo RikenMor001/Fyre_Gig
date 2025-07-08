@@ -1,3 +1,11 @@
+# Setting up project locally
+1. Run "npm install" and "npm install lucide-react" to install dependencies.
+2. To run project locally, run the command "npm run dev".
+
+# Description 
+This is a well structred implementaion of frontend for a banking website with low latency codebase to enhance user experience. 
+It involes all the functionalities to make users day to day financial decisions better. 
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
